@@ -22,6 +22,12 @@ def make_plots(title, input_files, close = True):
 	total = 0
 
 	turnout_hist =  ROOT.TH1D("turnout_hist", "Distribution of electoral commissions by turnout (" + title + " );turnout ,%; Number of electoral commissions (0.5% bins)", 220,0, 110)
+
+	edro_abs_rate =  ROOT.TH1D("edro_abs_rate", "edro_abs_rate (" + title + " );turnout * ruling party %; Number of electoral commissions (0.5% bins)", 220,0, 110)
+	edro_abs_rate2 = ROOT.TH2D("h2", "weighted ruling party  abs % vs turnout % (" + title + ");turnout,%;turnout * ruling party,%", 105,0, 104, 105, 0, 104)
+
+
+
 	turnout_weighted_hist =  ROOT.TH1D("turnout_weighted_hist", "Distribution of electoral commissions by turnout (weighted) (" + title + ");turnout,%;Number of electoral commissions (0.5% bins)", 220,0, 110)
 
 	edro_votes_hist =  ROOT.TH1D("edro_votes_hist", "Distribution of electoral commissions by ruling party votes (" + title + ");ruling party votes;Number of electoral commissions (--)", 10001,0, 10000)
@@ -70,6 +76,8 @@ def make_plots(title, input_files, close = True):
 			edro_votes_hist.Fill(values[14])
 			edro_votes_lastdigit_hist.Fill(int(str(int(values[14]))[0]))
 
+			edro_abs_rate.Fill(turnout * edro / 100, values[0])
+			edro_abs_rate2.Fill(turnout, turnout * edro / 100, values[0])
 			turnout_arr.append(turnout)
 
 			edro_arr.append(edro)
@@ -152,6 +160,10 @@ def make_plots(title, input_files, close = True):
 	c5.cd()
 	edro_valid.Draw("COL CONT0")
 	c5.SaveAs(title + "_valid_2d.png")
+
+	#~ c6 = ROOT.TCanvas()
+	#~ c6.cd()
+	#~ edro_abs_rate2.Draw()
 
 	if close:
 		c0.Close()
