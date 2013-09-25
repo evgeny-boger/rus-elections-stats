@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-
+import traceback
 try:
     import gevent
     from gevent import monkey
@@ -91,24 +91,28 @@ def get_data(data):
 			assert field_mapping[field_n] == field
 
 	if results:
-		assert  len(results) == 15
+#		print len(results)
+#		assert  len(results) == 15
+		assert len(results) > 9
 		return [value for field_n, field, value in  results]
 
 
 
 def get_uik_data(uik_url, html):
 
-	#~ html = download(uik_url.replace('type=0', 'type=242'))
-	uik_name = get_uik_name(html)
-	data = get_data(html)
+    #~ html = download(uik_url.replace('type=0', 'type=242'))
+    uik_name = get_uik_name(html)
+    data = get_data(html)
 
-	path = '/'.join(regexp_path.findall(html))
+    path = '/'.join(regexp_path.findall(html))
+    print "url: ", url
 
 
-	if data:
-		return [path.encode('utf8'), uik_name.encode('utf8'), uik_url, ] + data
+    if data:
+        return [path.encode('utf8'), uik_name.encode('utf8'), uik_url, ] + data
 
-	print 'data', data
+
+    print 'data', data
 
 
 def generate_results(results, pool, url,):
@@ -129,6 +133,7 @@ def generate_results(results, pool, url,):
             results.append(get_uik_data(url, data))
         except:
             print "no data for uik"
+            traceback.print_exc()
 
 def process_region(url, fname, region):
     csv_file = csv.writer(open(fname, 'wt'))
