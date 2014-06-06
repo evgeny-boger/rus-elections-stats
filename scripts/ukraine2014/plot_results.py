@@ -99,14 +99,14 @@ def make_plots(title, input_files, close = True):
     c01.SaveAs(title + "_2d_slices.png")
 
 
-    #~ c1 = ROOT.TCanvas()
-    #~ c1.cd()
+    c1 = ROOT.TCanvas()
+    c1.cd()
 #~
     #~ gaus_1 = ROOT.TF1("gaus_1","gaus",0, 55)
     #~ turnout_hist.Fit("gaus", "", "", 0, 54);
 #~
-    #~ turnout_hist.Draw()
-    #~ c1.SaveAs(title + "_turnout.png")
+    turnout_hist.Draw()
+    c1.SaveAs(title + "_turnout.png")
 
     #~ TF1 *f1=gROOT->GetFunction("myfunc");
     #~ f1->SetParameters(800,1);
